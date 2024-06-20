@@ -42,7 +42,7 @@ def main():
         print("\nCharacter and number of occurrences in char_dict: \n")      
         print("{: >10}{: >10}{: >10}".format('Character', 'Unicode', 'Count'))
         for key in sorted(char_dict.keys()):
-            print('{:>10}{:>10}{:>10}'.format(repr(key)[1:-1], # returns the string representation of the character, including quotes
+            print('{:>10}{:>10}{:>10}'.format(repr(key)[1:-1], # returns the string representation of the character, including quotes, removes the first and last characters (the quotes), so only the character itself is displayed.
                                               str(ord(key)), # converts this code point to a string for printing
                                               len(char_dict[key]))) # is the list of shifted indexes for the character # returns the number of elements in this list , indicating how many times the character appears in the text.
         print('\nNumber of distinct characters: {}'.format(len(char_dict)))
