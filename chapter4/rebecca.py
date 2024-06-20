@@ -4,20 +4,30 @@ import random
 from collections import defaultdict, Counter
 
 def main():
+    # Collect user input
     message = input("Enter plaintext or ciphertext: ") 
     process = input("Enter 'encrypt' or 'decrypt': ")
+
+    # Ensure valid process type
     while process not in ('encrypt', 'decrypt'):
         process = input("Invalid process. Enter 'encrypt' or 'decrypt': ")
+
+    # Collect and validate shift value
     shift = int(input("Shift value (1-366) = "))
     while not 1 <= shift <= 366:
         shift = int(input("Invalid value. Enter digit from 1 to 366: "))
+
+    # Collect and validate file name
     infile = input("Enter filename with extension: ")
     if not os.path.exists(infile):
         print("File {} not found. Terminating.".format(infile), file=sys.stderr)
-        sys.exit(1)        
+        sys.exit(1)
+
+    # Load file and create character dictionary        
     text = load_file(infile)
     char_dict = make_dict(text, shift)
-    
+
+    # Encrypt the message
     if process == 'encrypt':
         ciphertext = encrypt(message, char_dict)
         
@@ -28,6 +38,7 @@ def main():
                   file=sys.stderr)
             sys.exit()
 
+        # Print character dictionary statistics
         print("\nCharacter and number of occurrences in char_dict: \n")      
         print("{: >10}{: >10}{: >10}".format('Character', 'Unicode', 'Count'))
         for key in sorted(char_dict.keys()):
@@ -36,7 +47,8 @@ def main():
                                               len(char_dict[key])))
         print('\nNumber of distinct characters: {}'.format(len(char_dict)))
         print("Total number of characters: {:,}\n".format(len(text)))
-        
+
+        # Print the encrypted ciphertext
         print("encrypted ciphertext = \n {}\n".format(ciphertext))
         
         # Check the encryption by decrypting the ciphertext.
@@ -45,6 +57,7 @@ def main():
             print(text[i - shift], end='', flush=True)
 
     elif process == 'decrypt':
+        # Decrypt the message
         plaintext = decrypt(message, text, shift)
         print("\ndecrypted plaintext = \n {}".format(plaintext))
         
